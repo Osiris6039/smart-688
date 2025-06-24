@@ -93,7 +93,8 @@ with st.form("daily_form", clear_on_submit=True):
     weather = st.selectbox("Weather", ["Sunny", "Rainy", "Cloudy"])
     addon = st.number_input("Add-On Sales", 0)
     if st.form_submit_button("Submit Entry"):
-        data = data.append({"Date": date, "Sales": sales, "Customers": customers, "Weather": weather, "AddOnSales": addon}, ignore_index=True)
+        new_row = pd.DataFrame([{"Date": date, "Sales": sales, "Customers": customers, "Weather": weather, "AddOnSales": addon}])
+data = pd.concat([data, new_row], ignore_index=True)
         data["Date"] = pd.to_datetime(data["Date"])
         data.sort_values("Date", inplace=True)
         data.to_csv(data_file, index=False)
