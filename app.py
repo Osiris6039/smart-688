@@ -95,10 +95,12 @@ with st.form("daily_form", clear_on_submit=True):
     if st.form_submit_button("Submit Entry"):
         new_row = pd.DataFrame([{"Date": date, "Sales": sales, "Customers": customers, "Weather": weather, "AddOnSales": addon}])
 data = pd.concat([data, new_row], ignore_index=True)
-        data["Date"] = pd.to_datetime(data["Date"])
-        data.sort_values("Date", inplace=True)
-        data.to_csv(data_file, index=False)
-        st.success("Entry added!")
+       event_data = pd.concat([event_data, pd.DataFrame([{
+    "EventDate": edate.strftime('%Y-%m-%d'),
+    "EventName": ename,
+    "LastYearSales": esales,
+    "LastYearCustomers": ecustomers
+}])], ignore_index=True)
 
 # --- Event Entry ---
 st.header("📅 Input Future Event")
